@@ -1,0 +1,16 @@
+﻿@model ASPComplete.Models.Movie
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movie Details</h2>
+<h3>@Model.Name</h3>
+<ul>
+    <li>Genre : @Model.Genere.Genre</li>
+    <li>Relese Date : @Model.ReleaseDate.ToString("dd MMM yyyy")</li>
+    <li>Date Added: @Model.ReleaseDate.ToString("dd MMM yyyy")</li>
+    <li>Stock : @Model.Stock;</li>
+
+</ul>
+

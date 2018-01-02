@@ -1,0 +1,22 @@
+﻿@model ASPComplete.Models.Customer
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Detail</h2>
+
+<br />
+
+
+
+<h3>@Model.Name</h3>
+<ul>
+    <li>Genre : @Model.MembershipType.Name</li>
+    @if (@Model.BirthDate.HasValue)
+    {
+        <li>Birth Day :@Model.BirthDate.Value.ToString("dd MMM yyyy");</li>
+        
+    }  
+
+</ul>
