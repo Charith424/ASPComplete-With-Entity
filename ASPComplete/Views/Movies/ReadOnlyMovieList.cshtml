@@ -1,0 +1,51 @@
+﻿@model List<ASPComplete.Models.Movie>
+@{
+    ViewBag.Title = "MovieList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MovieList</h2>
+
+<table class="table table-bordered table-hover" id="movies">
+    <thead>
+        <tr>
+            <th>Movie</th>
+            <th>Genre</th>           
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#movies").DataTable({
+                ajax: {
+                    url: "/Api/Movie/",
+                    dataSrc: ""
+                },
+                columns: [
+                     {
+                         data: "name",
+                        
+                     },
+                     {
+                         data: "genere.genre"
+                     },
+                    
+                ]
+
+            })
+        })
+
+
+
+
+
+
+
+
+    </script>
+
+}

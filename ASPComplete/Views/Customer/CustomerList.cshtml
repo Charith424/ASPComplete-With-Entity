@@ -5,24 +5,104 @@
 }
 
 <h2>CustomerList</h2>
-<table class="table table-bordered table-hover">
+<input type="button" value="New Customer" onclick="@("window.location.href='" + @Url.Action("NewCustomer", "Customer") + "'");" class="btn btn-default" />
+<table class="table table-bordered table-hover" id="customers">
     <thead>
         <tr>
             <th>Customer</th>
-            <th>Discount Rate</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var Customer in Model)
-        {
-            <tr>
-                <td><a href="@Url.Action("Edit","Customer",new { @Customer.Id })">@Customer.Name</a></td>
-                <td>@Customer.MembershipType.Name</td>            
-            </tr>
+        @*//now we are taking from api so i have commentded this line
+                @foreach (var Customer in Model)
+            {
+                <tr>
+                    <td><a href="@Url.Action("Edit","Customer",new { @Customer.Id })">@Customer.Name</a></td>
+                    <td>@Customer.MembershipType.Name</td>
+                    <td>
+                        <button Data-customer-id="@Customer.Id" class="btn-link js-Delete">Delete</button>
+                    </td>
+                </tr>
 
 
 
-        }
+            }*@
     </tbody>
 
 </table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+         var table=   $("#customers").DataTable({
+                //rendering data from APi and customize those data and show in table Tr columns
+                ajax: {
+                    url: "/Api/Customers/",
+                    dataSrc: ""
+                },
+                //defining column and maching parameters
+                columns: [
+            {
+                data: "name",
+                render: function (data, type, customer) {
+                    return "<a href='/Customer/edit/" + customer.id + "'>" + customer.name + "</a>";
+                }
+            },
+            {
+                data: "membershipType.name"
+            },
+            {
+                data: "id",
+                render: function (data) {
+                    return "<button class='btn-link js-Delete' data-customer-id=" + data + ">Delete</button>";
+                }
+            }
+                ]
+            });
+
+            //this was inefficient because every time a customer login to the system it thake
+            //memory location to hanle that trigger
+            //  $("#customers .js-Delete").on("click", function () {
+            //in here we are overcomming the issue by applying a filter to #customer so
+            //event though how many customers loged only one memery place is enaugh
+         $("#customers").on("click", ".js-Delete", function () {
+             var button = $(this);
+             bootbox.confirm("Are you sure to Delete the Customer", function (result) {
+                 if (result) {
+                     $.ajax({
+                         url: "/Api/Customers/" + button.attr("data-customer-id"),
+                         method: "DELETE",
+                         success: function () {
+                             //Data table store record internally so we have to remove them this is how we can do it
+                             
+                             table.row(button.parents("tr")).remove().draw();
+
+                         }
+
+                     });
+                 }
+
+
+             })
+
+             //this is commented because this alert box is not nice to the user
+             //if (confirm("Are you sure to Delete the Customer")) {
+             //    $.ajax({
+             //        url: "/Api/Customers/" + $(this).attr("Data-customer-id"),
+             //        method: "DELETE",
+             //        success: function () {
+
+
+             //        }
+
+             //    });
+
+             //}
+
+         })
+
+        })
+
+    </script>}
+

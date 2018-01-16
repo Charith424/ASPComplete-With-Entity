@@ -1,0 +1,56 @@
+﻿@model ASPComplete.Models.NewMovie
+@{
+    ViewBag.Title = "NewMovie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*@if (Model.Movie.Id ==0)
+{
+    <h2>New Movie</h2>
+}
+else
+{
+    <h2>Edit Movie</h2>
+
+}*@
+<h2>New Movie</h2>
+
+@using (Html.BeginForm("Create", "Movies"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.Name)
+        @Html.TextBoxFor(m => m.Movie.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Name)
+      
+    </div>
+    <div class="form-group">
+        <label for="GenereId" class="dropdown-header">Select Generes</label>
+        @Html.DropDownListFor(m => m.Movie.GenereId, new SelectList(Model.Generes, "Id", "Genre"), "Select a Genre", new { @class = "btn btn-secondary dropdown-toggle" })
+        @Html.ValidationMessageFor(m => m.Movie.GenereId)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.ReleaseDate)
+        @Html.TextBoxFor(m => m.Movie.ReleaseDate, "{0:d MMM yyyy}", new { @class = "form-control",  @Value = "01/01/2000" })
+        @Html.ValidationMessageFor(m => m.Movie.ReleaseDate)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.AddedDate)
+        @Html.TextBoxFor(m => m.Movie.AddedDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.AddedDate)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.Stock)
+        @Html.TextBoxFor(m => m.Movie.Stock, new { @class = "form-control" ,@Value=0})
+        @Html.ValidationMessageFor(m => m.Movie.Stock)
+
+    </div>  
+    @Html.HiddenFor(m => m.Movie.Id)
+    @Html.AntiForgeryToken(); 
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+@section scripts
+    {
+    @Scripts.Render("~/bundles/jqueryval");
+}

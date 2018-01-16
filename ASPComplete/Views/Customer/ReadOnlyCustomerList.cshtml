@@ -1,0 +1,45 @@
+﻿@model List<ASPComplete.Models.Customer>
+@{
+    ViewBag.Title = "CustomerList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CustomerList</h2>
+<table class="table table-bordered table-hover" id="customers">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+
+        </tr>
+    </thead>
+    <tbody></tbody>
+
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#customers").DataTable({
+                //rendering data from APi and customize those data and show in table Tr columns
+                ajax: {
+                    url: "/Api/Customers/",
+                    dataSrc: ""
+                },
+                //defining column and maching parameters
+                columns: [
+            {
+                data: "name",
+            },
+            {
+                data: "membershipType.name"
+            },
+
+                ]
+            });
+
+           
+
+        })
+
+    </script>}
+

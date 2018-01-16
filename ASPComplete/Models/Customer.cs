@@ -17,11 +17,16 @@ namespace ASPComplete.Models
         public bool IsSubsceibedToNewsLetter { get; set; }
 
         public MembershipType MembershipType { get; set; }
-
+        [Required]
         public byte MembershipTypeId { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        //[Display(Name ="Date of Birth")]
+        //  [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [Display(Name="Date Of birth")]
+        [Min18Validation]
         public DateTime? BirthDate { get; set; }
+
+     
+
     }
     public class MembershipType
     {
@@ -33,5 +38,8 @@ namespace ASPComplete.Models
 
         [Required]
         public string Name { get; set; }
+
+        public static readonly byte Unset = 0;
+        public static readonly byte Set = 1;
     }
 }
